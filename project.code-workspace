@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "..\\Progect repo\\project"
+		},
+		{
+			"name": "git-tutorilal",
+			"path": "..\\git tutorial repo\\git-tutorilal"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "git-tutorilal"
+	}
+}
