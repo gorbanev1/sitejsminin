@@ -117,16 +117,30 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"model.js":[function(require,module,exports) {
+})({"assets/image.png":[function(require,module,exports) {
+module.exports = "/image.90ac9039.png";
+},{}],"model.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.model = void 0;
+var _image = _interopRequireDefault(require("./assets/image.png"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var model = exports.model = [{
   type: 'title',
-  value: 'Блядство!!!!!!!!!!!!!'
+  value: 'Блядство!!!!!!!!!!!!!',
+  options: {
+    tag: "h1",
+    // styles: "background:linear-gradient(to right, #341251, #ffaabb); color: #fff; text-align:center; padding: 1.5rem"
+    styles: {
+      background: 'linear-gradient(to right, #341251, #ffaabb)',
+      color: '#fff',
+      'text-align': 'center',
+      padding: "1.5rem"
+    }
+  }
 }, {
   type: "text",
   value: "here we go with some text//"
@@ -135,9 +149,9 @@ var model = exports.model = [{
   value: ["11111111", "22222222", "33333333", "32421342"]
 }, {
   type: 'image',
-  value: './assets/image.png'
+  value: _image.default
 }];
-},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./assets/image.png":"assets/image.png"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -199,12 +213,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.col = col;
+exports.css = css;
 exports.row = row;
-function row(content) {
-  return "<div class=\"row\">".concat(content, "</div>");
+function row(content, styles) {
+  console.log(styles);
+  return "<div class=\"row\" style=\"".concat(styles, "\">").concat(content, "</div>");
 }
 function col(content) {
   return "<div class=\"col-sm\">".concat(content, "</div>");
+}
+function css() {
+  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var keys = Object.keys(styles);
+  var array = keys.map(function (key) {
+    return "".concat(key, ":").concat(styles[key]);
+  });
+  return array.join(";");
+  alert(array);
 }
 },{}],"templates.js":[function(require,module,exports) {
 "use strict";
@@ -214,58 +239,59 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.templates = void 0;
 var _utils = require("./utils");
-//  function title(block) {
-//     return `
-//     <div class="row">
-//     <div class="col-sm">
-//         <h1>${block.value}</h1>
-//     </div>
-// </div>
-//     `
-// }
+/*  function title(block) {
+    return `
+    <div class="row">
+    <div class="col-sm">
+        <h1>${block.value}</h1>
+    </div>
+</div>
+    `
+} */
 function title(block) {
-  console.log();
-  return (0, _utils.row)((0, _utils.col)("<h1> ".concat(block.value, "</h1>")));
+  var _block$options = block.options,
+    _block$options$tag = _block$options.tag,
+    tag = _block$options$tag === void 0 ? 'h1' : _block$options$tag,
+    styles = _block$options.styles;
+  return (0, _utils.row)((0, _utils.col)("<".concat(tag, "> ").concat(block.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
 }
-//  function text(block) {
-//     return `
-// <div class="row">
-//         <div class="col-sm">
-//             <p>${block.value}</p>
-//         </div>
-//     </div>
-//     `
-// }
+/*  function text(block) {
+    return `
+<div class="row">
+        <div class="col-sm">
+            <p>${block.value}</p>
+        </div>
+    </div>
+    `
+} */
 
 function text(block) {
   return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>")));
 }
 
-//  function columns(block) {
-//     const html= block.value.map(item=>`
-//     <div class="col-sm">
-//                 ${item}
-//             </div>
-//     `)
-//     return `
-//     <div class="row">
-//            ${html.join('')}
-//         </div>
-//     `
-// }
+/*  function columns(block) {
+    const html= block.value.map(item=>`
+    <div class="col-sm">
+                ${item}
+            </div>
+    `)
+    return `
+    <div class="row">
+           ${html.join('')}
+        </div>
+    `
+} */
 function columns(block) {
-  var html = block.value.map(function (item) {
-    return (0, _utils.col)(item);
-  });
-  return (0, _utils.row)(html.join(''));
+  var html = block.value.map(_utils.col).join('');
+  return (0, _utils.row)(html);
 }
-//  function image(block){
-//     return `
-//     <div class="row">
-//     <img src="${block.value}"/>
-//     </div>
-//     `
-// }
+/*  function image(block){
+    return `
+    <div class="row">
+    <img src="${block.value}"/>
+    </div>
+    `
+} */
 function image(block) {
   return (0, _utils.row)("<img src=\"".concat(block.value, "\"/>"));
 }
@@ -324,7 +350,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59624" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54594" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
