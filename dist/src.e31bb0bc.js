@@ -119,6 +119,25 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"assets/image.png":[function(require,module,exports) {
 module.exports = "/image.90ac9039.png";
+},{}],"classes/blocks.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Block = void 0;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Block = exports.Block = /*#__PURE__*/_createClass(function Block(type, value, options) {
+  _classCallCheck(this, Block);
+  this.type = type;
+  this.value = value;
+  this.options = options;
+});
 },{}],"model.js":[function(require,module,exports) {
 "use strict";
 
@@ -127,6 +146,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.model = void 0;
 var _image = _interopRequireDefault(require("./assets/image.png"));
+var _blocks = require("./classes/blocks");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var model = exports.model = [{
   type: 'title',
@@ -142,16 +162,43 @@ var model = exports.model = [{
     }
   }
 }, {
+  type: 'image',
+  value: _image.default,
+  options: {
+    styles: {
+      padding: '2rem 0',
+      display: 'flex',
+      'justify-content': 'center'
+    },
+    imageStyles: {
+      width: '500px',
+      height: 'auto'
+    },
+    alt: 'хуйня'
+  }
+}, {
   type: "text",
-  value: "here we go with some text//"
+  value: "here we go with some text//",
+  options: {
+    styles: {
+      background: 'linear-gradient(to left, #f2994a, #f2c94c)',
+      padding: '1rem',
+      'font-weight': 'bold'
+    }
+  }
 }, {
   type: 'columns',
-  value: ["11111111", "22222222", "33333333", "32421342"]
-}, {
-  type: 'image',
-  value: _image.default
+  value: ["asdd ad adsa Das dsA DSA SA Ds AS as dAS DAs AS das", "  asdf asd aasd fasdf ", " asdf fd fsadf ", " asdf sdf asd"],
+  options: {
+    styles: {
+      background: 'linear-gradient(to bottom, #8e2de2, #4a00e0)',
+      padding: '2rem',
+      color: '#fff',
+      'font-weight': 'bold'
+    }
+  }
 }];
-},{"./assets/image.png":"assets/image.png"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./assets/image.png":"assets/image.png","./classes/blocks":"classes/blocks.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -224,12 +271,10 @@ function col(content) {
 }
 function css() {
   var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var keys = Object.keys(styles);
-  var array = keys.map(function (key) {
+  var toString = function toString(key) {
     return "".concat(key, ":").concat(styles[key]);
-  });
-  return array.join(";");
-  alert(array);
+  };
+  return Object.keys(styles).map(toString).join(';');
 }
 },{}],"templates.js":[function(require,module,exports) {
 "use strict";
@@ -253,7 +298,7 @@ function title(block) {
     _block$options$tag = _block$options.tag,
     tag = _block$options$tag === void 0 ? 'h1' : _block$options$tag,
     styles = _block$options.styles;
-  return (0, _utils.row)((0, _utils.col)("<".concat(tag, "> ").concat(block.value, "</").concat(tag, ">")), (0, _utils.css)(styles));
+  return (0, _utils.row)((0, _utils.col)("<".concat(tag, "> ").concat(block.value, "</").concat(tag, ">")), (0, _utils.css)(block.options.styles));
 }
 /*  function text(block) {
     return `
@@ -266,7 +311,7 @@ function title(block) {
 } */
 
 function text(block) {
-  return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>")));
+  return (0, _utils.row)((0, _utils.col)("<p>".concat(block.value, "</p>")), (0, _utils.css)(block.options.styles));
 }
 
 /*  function columns(block) {
@@ -283,7 +328,7 @@ function text(block) {
 } */
 function columns(block) {
   var html = block.value.map(_utils.col).join('');
-  return (0, _utils.row)(html);
+  return (0, _utils.row)(html, (0, _utils.css)(block.options.styles));
 }
 /*  function image(block){
     return `
@@ -293,7 +338,12 @@ function columns(block) {
     `
 } */
 function image(block) {
-  return (0, _utils.row)("<img src=\"".concat(block.value, "\"/>"));
+  var _block$options2 = block.options,
+    is = _block$options2.imageStyles,
+    _block$options2$alt = _block$options2.alt,
+    alt = _block$options2$alt === void 0 ? "" : _block$options2$alt,
+    styles = _block$options2.styles;
+  return (0, _utils.row)("<img src=\"".concat(block.value, "\" alt='").concat(alt, "' style=\"").concat((0, _utils.css)(is), "\"/>"), (0, _utils.css)(styles));
 }
 var templates = exports.templates = {
   title: title,
@@ -350,7 +400,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54594" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62718" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
