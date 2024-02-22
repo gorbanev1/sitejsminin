@@ -49,6 +49,8 @@ export class ImageBlock extends Block{
      super( value, options)
     }
     toHTML() {
+        console.log(this.options.styles)
+        
         return row(col(`<p>${this.value}</p>`), css(this.options.styles))
     }
  }

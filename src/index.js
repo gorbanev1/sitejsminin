@@ -1,13 +1,8 @@
 import {model} from './model.js'
-// import {text , columns, title, image}   from  './templates.js'
+import { Site } from './classes/site.js'
 import './styles/main.css'
-const $site=document.querySelector('#site')
-// console.log(templates)
-model.forEach(block =>{
-    let html=""
-    // const toHTML = templates[block.type]
-    console.log(block.toHTML())
+import { Sidebar } from './classes/sidebar.js'
+import { App } from './classes/app.js'
 
-   $site.insertAdjacentHTML("beforeend", block.toHTML())
+new App(model).init()
 
-})
